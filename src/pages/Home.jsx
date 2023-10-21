@@ -14,7 +14,7 @@ export const Home = () => {
   const data = useSelector((state) => state.auth.user.data);
 
   const { posts, tags } = useSelector((state) => state.posts);
-  console.log(posts.items);
+
   const isPostLoading = posts.status === "loading";
 
   const isTagsLoading = tags.status === "loading";
