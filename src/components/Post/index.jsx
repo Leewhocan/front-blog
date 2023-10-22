@@ -11,6 +11,7 @@ import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
 import { useDispatch } from "react-redux";
 import { fetchRemovePosts } from "../../redux/slices/posts";
+import { setSearchTag } from "../../redux/slices/posts";
 export const Post = ({
   _id,
   title,
@@ -26,7 +27,9 @@ export const Post = ({
   isEditable,
 }) => {
   const dispatch = useDispatch(); // исправлено имя переменной
-
+  const handleClick = (name) => {
+    dispatch(setSearchTag(name));
+  };
   if (isLoading) {
     return <PostSkeleton />;
   }
@@ -69,7 +72,7 @@ export const Post = ({
           <ul className={styles.tags}>
             {tags.map((name) => (
               <li key={name}>
-                <Link to={`/tag/${name}`}>#{name}</Link>
+                <div onClick={() => handleClick(name)}>#{name}</div>
               </li>
             ))}
           </ul>

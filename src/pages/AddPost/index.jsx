@@ -64,7 +64,6 @@ export const AddPost = () => {
   };
 
   React.useEffect(() => {
-    console.log("mount component ");
     if (id) {
       axios
         .get(`posts/${id}`)

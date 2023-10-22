@@ -2,7 +2,6 @@ import React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Grid from "@mui/material/Grid";
-import axios from "../axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Post } from "../components/Post";
@@ -13,16 +12,16 @@ export const Home = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.auth.user.data);
 
-  const { posts, tags } = useSelector((state) => state.posts);
+  const { posts, tags, initialTag } = useSelector((state) => state.posts);
 
   const isPostLoading = posts.status === "loading";
 
   const isTagsLoading = tags.status === "loading";
 
   React.useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchPosts(initialTag.tag));
     dispatch(fetchTags());
-  }, []);
+  }, [initialTag]);
   return (
     <>
       <Tabs
