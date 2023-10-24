@@ -35,7 +35,7 @@ export const TagsBlock = ({ items, isLoading = true }) => {
                 sx={
                   initialTag.tag === name
                     ? {
-                        backgroundColor: theme.palette.grey[300], // Добавьте другие стили здесь
+                        backgroundColor: "rgba(67, 97, 238, 0.2)", // Добавьте другие стили здесь
                       }
                     : undefined
                 }

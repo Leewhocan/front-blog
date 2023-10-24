@@ -11,7 +11,7 @@ import { fetchPosts, fetchTags } from "../redux/slices/posts";
 export const Home = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.auth.user.data);
-
+  const [sort, setSort] = React.useState(0);
   const { posts, tags, initialTag } = useSelector((state) => state.posts);
 
   const isPostLoading = posts.status === "loading";
@@ -26,11 +26,11 @@ export const Home = () => {
     <>
       <Tabs
         style={{ marginBottom: 15 }}
-        value={0}
+        value={sort}
         aria-label="basic tabs example"
       >
-        <Tab label="Новые" />
-        <Tab label="Популярные" />
+        <Tab onClick={() => setSort(0)} label="Новые" />
+        <Tab onClick={() => setSort(1)} label="Популярные" />
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
@@ -42,7 +42,9 @@ export const Home = () => {
                 _id={obj._id}
                 title={obj.title}
                 imageUrl={
-                  obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ""
+                  obj.imageUrl
+                    ? `https://back-blog-oz2y.onrender.com${obj.imageUrl}`
+                    : ""
                 }
                 user={obj.user}
                 createdAt={obj.createdAt}
