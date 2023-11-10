@@ -3,7 +3,6 @@ import axios from "../../axios";
 
 export const fetchPosts = createAsyncThunk("/posts/fetchPosts", async (tag) => {
   const { data } = await axios.get(`/posts?tag=${tag}`);
-  console.log(data);
   return data;
 });
 

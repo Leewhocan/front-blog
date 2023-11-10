@@ -42,9 +42,7 @@ export const Home = () => {
                 _id={obj._id}
                 title={obj.title}
                 imageUrl={
-                  obj.imageUrl
-                    ? `https://back-blog-oz2y.onrender.com${obj.imageUrl}`
-                    : ""
+                  obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ""
                 }
                 user={obj.user}
                 createdAt={obj.createdAt}
@@ -76,6 +74,7 @@ export const Home = () => {
                 text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
               },
             ]}
+            dataAuth={data}
             isLoading={false}
           />
         </Grid>

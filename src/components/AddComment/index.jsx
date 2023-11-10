@@ -5,8 +5,11 @@ import styles from "./AddComment.module.scss";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import axios from "../../axios";
 
-export const Index = () => {
+export const Index = ({ id, addComment }) => {
+  const [text, setText] = React.useState("");
+
   return (
     <>
       <div className={styles.root}>
@@ -21,8 +24,11 @@ export const Index = () => {
             maxRows={10}
             multiline
             fullWidth
+            onChange={(e) => setText(e.target.value)}
           />
-          <Button variant="contained">Отправить</Button>
+          <Button onClick={() => addComment(text)} variant="contained">
+            Отправить
+          </Button>
         </div>
       </div>
     </>

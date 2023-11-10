@@ -1,6 +1,7 @@
 import React from "react";
-
+import DeleteIcon from "@mui/icons-material/Clear";
 import { SideBlock } from "./SideBlock";
+import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
@@ -9,7 +10,17 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 
-export const CommentsBlock = ({ items, children, isLoading = true }) => {
+export const CommentsBlock = ({
+  items,
+  dataAuth,
+  children,
+  isLoading = true,
+}) => {
+  if (dataAuth === null) {
+    dataAuth = {};
+    dataAuth._id = "////////////";
+  }
+
   return (
     <SideBlock title="Комментарии">
       <List>
@@ -20,7 +31,10 @@ export const CommentsBlock = ({ items, children, isLoading = true }) => {
                 {isLoading ? (
                   <Skeleton variant="circular" width={40} height={40} />
                 ) : (
-                  <Avatar alt={obj.user.fullName} src={obj.user.avatarUrl} />
+                  <Avatar
+                    alt={obj.user.fullName}
+                    src="https://mui.com/static/images/avatar/2.jpg"
+                  />
                 )}
               </ListItemAvatar>
               {isLoading ? (
@@ -33,6 +47,14 @@ export const CommentsBlock = ({ items, children, isLoading = true }) => {
                   primary={obj.user.fullName}
                   secondary={obj.text}
                 />
+              )}
+
+              {obj.user._id === dataAuth._id ? (
+                <IconButton color="secondary" style={{ marginTop: "15px" }}>
+                  <DeleteIcon />
+                </IconButton>
+              ) : (
+                <></>
               )}
             </ListItem>
             <Divider variant="inset" component="li" />
