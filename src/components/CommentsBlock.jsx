@@ -14,6 +14,7 @@ export const CommentsBlock = ({
   items,
   dataAuth,
   children,
+  fromHome,
   isLoading = true,
 }) => {
   if (dataAuth === null) {
@@ -49,7 +50,7 @@ export const CommentsBlock = ({
                 />
               )}
 
-              {obj.user._id === dataAuth._id ? (
+              {obj.user._id === dataAuth._id && !fromHome ? (
                 <IconButton color="secondary" style={{ marginTop: "15px" }}>
                   <DeleteIcon />
                 </IconButton>

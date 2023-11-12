@@ -8,12 +8,13 @@ import { Post } from "../components/Post";
 import { TagsBlock } from "../components/TagsBlock";
 import { CommentsBlock } from "../components/CommentsBlock";
 import { fetchPosts, fetchTags } from "../redux/slices/posts";
+import { fetchComments } from "../redux/slices/comments";
 export const Home = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.auth.user.data);
   const [sort, setSort] = React.useState(0);
   const { posts, tags, initialTag } = useSelector((state) => state.posts);
-
+  const dataofC = useSelector((state) => state.comments);
   const isPostLoading = posts.status === "loading";
 
   const isTagsLoading = tags.status === "loading";
@@ -21,7 +22,9 @@ export const Home = () => {
   React.useEffect(() => {
     dispatch(fetchPosts(initialTag.tag));
     dispatch(fetchTags());
+    dispatch(fetchComments());
   }, [initialTag]);
+  console.log(dataofC.comments);
   return (
     <>
       <Tabs
@@ -58,23 +61,9 @@ export const Home = () => {
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
-            items={[
-              {
-                user: {
-                  fullName: "Вася Пупкин",
-                  avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
-                },
-                text: "Это тестовый комментарий",
-              },
-              {
-                user: {
-                  fullName: "Иван Иванов",
-                  avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
-                },
-                text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
-              },
-            ]}
+            items={dataofC.comments}
             dataAuth={data}
+            fromHome={true}
             isLoading={false}
           />
         </Grid>
