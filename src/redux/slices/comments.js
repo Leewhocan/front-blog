@@ -8,6 +8,16 @@ export const fetchComments = createAsyncThunk(
   }
 );
 
+export const fetchDeleteComment = createAsyncThunk(
+  "/comments/deleteComments",
+  async (obj) => {
+    const res = await axios.delete(
+      `/posts/${obj.postId}/comments/${obj.commentId}`
+    );
+    return res.data;
+  }
+);
+
 const initialState = {
   comments: [],
   status: "loading",
@@ -27,6 +37,10 @@ const commentSlice = createSlice({
     [fetchComments.error]: (state) => {
       state.comments = [];
       state.status = "error";
+    },
+
+    [fetchDeleteComment.rejected]: (state) => {
+      state.posts.status = "error";
     },
   },
 });

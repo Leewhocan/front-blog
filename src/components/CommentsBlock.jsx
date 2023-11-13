@@ -11,6 +11,7 @@ import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 
 export const CommentsBlock = ({
+  onClickDelete,
   items,
   dataAuth,
   children,
@@ -45,13 +46,18 @@ export const CommentsBlock = ({
                 </div>
               ) : (
                 <ListItemText
+                  key={obj._id}
                   primary={obj.user.fullName}
                   secondary={obj.text}
                 />
               )}
 
               {obj.user._id === dataAuth._id && !fromHome ? (
-                <IconButton color="secondary" style={{ marginTop: "15px" }}>
+                <IconButton
+                  onClick={() => onClickDelete(obj._id)}
+                  color="secondary"
+                  style={{ marginTop: "15px" }}
+                >
                   <DeleteIcon />
                 </IconButton>
               ) : (

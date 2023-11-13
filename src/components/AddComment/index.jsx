@@ -5,10 +5,14 @@ import styles from "./AddComment.module.scss";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import axios from "../../axios";
 
 export const Index = ({ id, addComment }) => {
   const [text, setText] = React.useState("");
+
+  const handleButtonClick = () => {
+    setText("");
+    addComment(text);
+  };
 
   return (
     <>
@@ -20,13 +24,14 @@ export const Index = ({ id, addComment }) => {
         <div className={styles.form}>
           <TextField
             label="Написать комментарий"
+            value={text}
             variant="outlined"
             maxRows={10}
             multiline
             fullWidth
             onChange={(e) => setText(e.target.value)}
           />
-          <Button onClick={() => addComment(text)} variant="contained">
+          <Button onClick={handleButtonClick} variant="contained">
             Отправить
           </Button>
         </div>

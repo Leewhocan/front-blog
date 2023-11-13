@@ -5,16 +5,24 @@ import { Index } from "../components/AddComment";
 import { CommentsBlock } from "../components/CommentsBlock";
 import axios from "../axios";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDeleteComment } from "../redux/slices/comments";
 export const FullPost = () => {
   const { id } = useParams();
   const dataAuth = useSelector((state) => state.auth.user.data);
   const [data, setData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
   const [commetData, setCommmentData] = React.useState();
+  const [isDeletingComment, setIsDeletingComment] = React.useState(false);
+  const dispatch = useDispatch();
   const onSubmit = async (text) => {
     const data = await axios.post(`/posts/${id}`, { text });
     setCommmentData(data);
+  };
+
+  const onClickDelete = async (commentId) => {
+    dispatch(fetchDeleteComment({ postId: id, commentId: commentId }));
+    setCommmentData(commentId);
   };
 
   React.useEffect(() => {
@@ -22,7 +30,7 @@ export const FullPost = () => {
       .get(`/posts/${id}`)
       .then((res) => {
         setData(res.data);
-
+        setIsDeletingComment(false);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -52,6 +60,7 @@ export const FullPost = () => {
         </p>
       </Post>
       <CommentsBlock
+        onClickDelete={onClickDelete}
         items={data.commentary}
         dataAuth={dataAuth}
         isLoading={false}
