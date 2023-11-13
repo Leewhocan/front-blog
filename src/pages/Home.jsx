@@ -8,13 +8,13 @@ import { Post } from "../components/Post";
 import { TagsBlock } from "../components/TagsBlock";
 import { CommentsBlock } from "../components/CommentsBlock";
 import { fetchPosts, fetchTags } from "../redux/slices/posts";
-import { fetchComments } from "../redux/slices/comments";
+import { fetchLastComments } from "../redux/slices/comments";
 export const Home = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.auth.user.data);
   const [sort, setSort] = React.useState(0);
   const { posts, tags, initialTag } = useSelector((state) => state.posts);
-  const dataofC = useSelector((state) => state.comments);
+  const dataofC = useSelector((state) => state.comments.lastComments);
   const isPostLoading = posts.status === "loading";
 
   const isTagsLoading = tags.status === "loading";
@@ -22,10 +22,9 @@ export const Home = () => {
   React.useEffect(() => {
     dispatch(fetchPosts(initialTag.tag));
     dispatch(fetchTags());
-    dispatch(fetchComments());
+    dispatch(fetchLastComments());
   }, [initialTag]);
 
-  console.log(posts);
   return (
     <>
       <Tabs
