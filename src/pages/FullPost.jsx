@@ -13,7 +13,7 @@ export const FullPost = () => {
   const [data, setData] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
   const [commetData, setCommmentData] = React.useState();
-  const [isDeletingComment, setIsDeletingComment] = React.useState(false);
+
   const dispatch = useDispatch();
   const onSubmit = async (text) => {
     const data = await axios.post(`/posts/${id}`, { text });
@@ -22,6 +22,7 @@ export const FullPost = () => {
 
   const onClickDelete = async (commentId) => {
     dispatch(fetchDeleteComment({ postId: id, commentId: commentId }));
+
     setCommmentData(commentId);
   };
 
@@ -30,7 +31,7 @@ export const FullPost = () => {
       .get(`/posts/${id}`)
       .then((res) => {
         setData(res.data);
-        setIsDeletingComment(false);
+
         setIsLoading(false);
       })
       .catch((err) => {

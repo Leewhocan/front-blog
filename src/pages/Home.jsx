@@ -24,7 +24,8 @@ export const Home = () => {
     dispatch(fetchTags());
     dispatch(fetchComments());
   }, [initialTag]);
-  console.log(dataofC.comments);
+
+  console.log(posts);
   return (
     <>
       <Tabs
