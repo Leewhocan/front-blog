@@ -9,6 +9,7 @@ import { TagsBlock } from "../components/TagsBlock";
 import { CommentsBlock } from "../components/CommentsBlock";
 import { fetchPosts, fetchTags } from "../redux/slices/posts";
 import { fetchLastComments } from "../redux/slices/comments";
+import { fetchRemovePosts } from "../redux/slices/posts";
 export const Home = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.auth.user.data);
@@ -16,15 +17,21 @@ export const Home = () => {
   const { posts, tags, initialTag } = useSelector((state) => state.posts);
   const dataofC = useSelector((state) => state.comments.lastComments);
   const isPostLoading = posts.status === "loading";
-
+  const [isDeliting, setIsDeleting] = React.useState(false);
   const isTagsLoading = tags.status === "loading";
-
+  const onClickRemove = (_id) => {
+    if (window.confirm("really?")) {
+      setIsDeleting(true);
+      dispatch(fetchRemovePosts(_id));
+    }
+  };
   React.useEffect(() => {
     dispatch(fetchPosts(initialTag.tag));
     dispatch(fetchTags());
     dispatch(fetchLastComments());
-  }, [initialTag]);
-
+    setIsDeleting(false);
+  }, [initialTag, isDeliting]);
+  console.log(posts);
   return (
     <>
       <Tabs
@@ -50,10 +57,11 @@ export const Home = () => {
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
-                commentsCount={3}
+                commentsCount={obj.commentary}
                 tags={obj.tags}
                 isEditable={data?._id === obj.user._id}
                 us_id={data?._id}
+                onClickRemove={onClickRemove}
               />
             )
           )}

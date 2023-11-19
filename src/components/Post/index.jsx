@@ -25,8 +25,9 @@ export const Post = ({
   isFullPost,
   isLoading,
   isEditable,
+  onClickRemove,
 }) => {
-  const dispatch = useDispatch(); // исправлено имя переменной
+  const dispatch = useDispatch();
   const handleClick = (name) => {
     dispatch(setSearchTag(name));
   };
@@ -34,11 +35,11 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
-  const onClickRemove = () => {
-    if (window.confirm("really?")) {
-      dispatch(fetchRemovePosts(_id)); // исправлено имя переменной
-    }
-  };
+  // const onClickRemove = () => {
+  //   if (window.confirm("really?")) {
+  //     dispatch(fetchRemovePosts(_id));
+  //   }
+  // };
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
@@ -49,7 +50,7 @@ export const Post = ({
               <EditIcon />
             </IconButton>
           </Link>
-          <IconButton onClick={onClickRemove} color="secondary">
+          <IconButton onClick={() => onClickRemove(_id)} color="secondary">
             <DeleteIcon />
           </IconButton>
         </div>

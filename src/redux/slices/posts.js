@@ -8,6 +8,7 @@ export const fetchPosts = createAsyncThunk("/posts/fetchPosts", async (tag) => {
 
 export const fetchTags = createAsyncThunk("/tags/fetchTags", async () => {
   const { data } = await axios.get("/tags");
+  console.log(data)
   return data;
 });
 export const fetchRemovePosts = createAsyncThunk(
@@ -56,6 +57,7 @@ const postsSlice = createSlice({
       state.tags.status = "loading";
     },
     [fetchTags.fulfilled]: (state, action) => {
+      
       state.tags.items = action.payload;
       state.tags.status = "loaded";
     },

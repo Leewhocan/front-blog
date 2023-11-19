@@ -18,7 +18,7 @@ export const FullPost = () => {
   const [data, setData] = React.useState();
   const [isUpdateOnComment, setIsUpdateOnComment] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  console.log(commentData);
+
   const dispatch = useDispatch();
   const onSubmit = async (text) => {
     dispatch(fetchPostComment({ id: id, text: text }));
@@ -32,7 +32,7 @@ export const FullPost = () => {
 
   React.useEffect(() => {
     dispatch(fetchCommentsForPost(id));
-    console.log("Я вызвал перерендер");
+
     setIsUpdateOnComment(false);
   }, [isUpdateOnComment]);
 
