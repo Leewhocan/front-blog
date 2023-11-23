@@ -7,14 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Post } from "../components/Post";
 import { TagsBlock } from "../components/TagsBlock";
 import { CommentsBlock } from "../components/CommentsBlock";
-import { fetchPosts, fetchTags } from "../redux/slices/posts";
+import {
+  fetchPosts,
+  fetchTags,
+  fetchRemovePosts,
+  setSortBy,
+} from "../redux/slices/posts";
 import { fetchLastComments } from "../redux/slices/comments";
-import { fetchRemovePosts } from "../redux/slices/posts";
+
 export const Home = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.auth.user.data);
   const [sort, setSort] = React.useState(0);
-  const { posts, tags, initialTag } = useSelector((state) => state.posts);
+  const { posts, tags, initialTag, sorting } = useSelector(
+    (state) => state.posts
+  );
   const dataofC = useSelector((state) => state.comments.lastComments);
   const isPostLoading = posts.status === "loading";
   const [isDeliting, setIsDeleting] = React.useState(false);
@@ -25,13 +32,14 @@ export const Home = () => {
       dispatch(fetchRemovePosts(_id));
     }
   };
+
   React.useEffect(() => {
-    dispatch(fetchPosts(initialTag.tag));
+    dispatch(fetchPosts({ tag: initialTag.tag, sortBy: sorting }));
     dispatch(fetchTags());
     dispatch(fetchLastComments());
     setIsDeleting(false);
-  }, [initialTag, isDeliting]);
-  console.log(posts);
+  }, [initialTag, isDeliting, sorting]);
+
   return (
     <>
       <Tabs
@@ -39,8 +47,20 @@ export const Home = () => {
         value={sort}
         aria-label="basic tabs example"
       >
-        <Tab onClick={() => setSort(0)} label="Новые" />
-        <Tab onClick={() => setSort(1)} label="Популярные" />
+        <Tab
+          onClick={() => {
+            dispatch(setSortBy("Новые"));
+            setSort(0);
+          }}
+          label="Новые"
+        />
+        <Tab
+          onClick={() => {
+            dispatch(setSortBy("Популярные"));
+            setSort(1);
+          }}
+          label="Популярные"
+        />
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>

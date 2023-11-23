@@ -1,14 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchPosts = createAsyncThunk("/posts/fetchPosts", async (tag) => {
-  const { data } = await axios.get(`/posts?tag=${tag}`);
-  return data;
-});
+export const fetchPosts = createAsyncThunk(
+  "/posts/fetchPosts",
+  async ({ tag, sortBy }) => {
+    const { data } = await axios.get(`/posts?tag=${tag}&sortBy=${sortBy}`);
+    return data;
+  }
+);
 
 export const fetchTags = createAsyncThunk("/tags/fetchTags", async () => {
   const { data } = await axios.get("/tags");
-  console.log(data)
+
   return data;
 });
 export const fetchRemovePosts = createAsyncThunk(
@@ -30,6 +33,7 @@ const initialState = {
   initialTag: {
     tag: "",
   },
+  sorting: "Новые",
 };
 const postsSlice = createSlice({
   name: "posts",
@@ -37,6 +41,9 @@ const postsSlice = createSlice({
   reducers: {
     setSearchTag: (state, action) => {
       state.initialTag.tag = action.payload;
+    },
+    setSortBy: (state, action) => {
+      state.sorting = action.payload;
     },
   },
   extraReducers: {
@@ -57,7 +64,6 @@ const postsSlice = createSlice({
       state.tags.status = "loading";
     },
     [fetchTags.fulfilled]: (state, action) => {
-      
       state.tags.items = action.payload;
       state.tags.status = "loaded";
     },
@@ -79,4 +85,4 @@ const postsSlice = createSlice({
 
 export const postRedusers = postsSlice.reducer;
 
-export const { setSearchTag } = postsSlice.actions;
+export const { setSearchTag, setSortBy } = postsSlice.actions;

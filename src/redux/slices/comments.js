@@ -8,10 +8,13 @@ export const fetchLastComments = createAsyncThunk(
   }
 );
 
-export const fetchCommentsForPost = createAsyncThunk("/comments/fetchCommentsForPost", async (id) => {
-  const {data} = await axios.get(`/comments/${id}`)
-  return data
-})
+export const fetchCommentsForPost = createAsyncThunk(
+  "/comments/fetchCommentsForPost",
+  async (id) => {
+    const { data } = await axios.get(`/comments/${id}`);
+    return data;
+  }
+);
 
 export const fetchDeleteComment = createAsyncThunk(
   "/comments/deleteComments",
@@ -23,22 +26,23 @@ export const fetchDeleteComment = createAsyncThunk(
   }
 );
 
-
-export const fetchPostComment = createAsyncThunk("/comments/fetchPostComment",async (obj) => {
-  console.log(obj)
-  const response = await axios.post(`/posts/${obj.id}`, {text:obj.text} );
-  return response.data;
-})
+export const fetchPostComment = createAsyncThunk(
+  "/comments/fetchPostComment",
+  async (obj) => {
+    const response = await axios.post(`/posts/${obj.id}`, { text: obj.text });
+    return response.data;
+  }
+);
 
 const initialState = {
-  lastComments : {
-    comments:[],
-    status:"loading"
+  lastComments: {
+    comments: [],
+    status: "loading",
   },
-  allComments :{
-    commentary : [],
-    status:"loading"
-  }
+  allComments: {
+    commentary: [],
+    status: "loading",
+  },
 };
 
 const commentSlice = createSlice({
@@ -75,10 +79,8 @@ const commentSlice = createSlice({
       state.allComments.commentary.push(action.payload);
     },
     [fetchPostComment.error]: (state) => {
-      
       state.allComments.status = "error";
     },
-
 
     [fetchDeleteComment.rejected]: (state) => {
       state.posts.status = "error";

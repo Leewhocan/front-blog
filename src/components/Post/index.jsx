@@ -10,7 +10,7 @@ import styles from "./Post.module.scss";
 import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
 import { useDispatch } from "react-redux";
-import { fetchRemovePosts } from "../../redux/slices/posts";
+
 import { setSearchTag } from "../../redux/slices/posts";
 export const Post = ({
   _id,
@@ -40,6 +40,8 @@ export const Post = ({
   //     dispatch(fetchRemovePosts(_id));
   //   }
   // };
+
+  console.log(imageUrl);
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>

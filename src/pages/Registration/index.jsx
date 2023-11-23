@@ -27,7 +27,6 @@ export const Registration = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(111);
     const data = await dispatch(fetchRegister(values));
 
     if (!data.payload) {
