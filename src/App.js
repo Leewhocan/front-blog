@@ -10,8 +10,6 @@ import { TestPage } from "./pages/TestPage";
 function App() {
   const dispath = useDispatch();
 
-  const isAuth = useSelector(selectIsAuth);
-
   React.useEffect(() => {
     dispath(fetchAuthUser());
   }, []);

@@ -9,14 +9,13 @@ import Skeleton from "@mui/material/Skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { SideBlock } from "./SideBlock";
 import { setSearchTag } from "../redux/slices/posts";
-import { useTheme } from "@mui/material/styles";
 export const TagsBlock = ({ items, isLoading = true }) => {
-  const theme = useTheme();
   const dispath = useDispatch();
   const handleClick = (name) => {
     dispath(setSearchTag(name));
   };
   const { initialTag } = useSelector((state) => state.posts);
+  console.log(initialTag);
   return (
     <SideBlock title="Тэги">
       <List>
@@ -29,13 +28,17 @@ export const TagsBlock = ({ items, isLoading = true }) => {
           .map((name, i) => (
             <div
               style={{ textDecoration: "none", color: "black" }}
-              onClick={() => handleClick(name)}
+              onClick={
+                initialTag.tag === name
+                  ? () => handleClick("")
+                  : () => handleClick(name)
+              }
             >
               <ListItem
                 sx={
                   initialTag.tag === name
                     ? {
-                        backgroundColor: "rgba(67, 97, 238, 0.2)", // Добавьте другие стили здесь
+                        backgroundColor: "rgba(67, 97, 238, 0.2)",
                       }
                     : undefined
                 }
