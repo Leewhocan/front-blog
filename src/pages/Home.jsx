@@ -79,7 +79,9 @@ export const Home = () => {
                 viewsCount={obj.viewsCount}
                 commentsCount={obj.commentary}
                 tags={obj.tags}
-                isEditable={data?._id === obj.user._id}
+                isEditable={
+                  data?._id === obj.user._id || data?.role === "admin"
+                }
                 us_id={data?._id}
                 onClickRemove={onClickRemove}
               />

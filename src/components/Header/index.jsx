@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData, selectIsAuth } from "../../redux/slices/auth";
 import { logout } from "../../redux/slices/auth";
 import { setSearchTag } from "../../redux/slices/posts";
+import { Avatar } from "@mui/material";
+import { deepOrange, red } from "@mui/material/colors";
 export const Header = () => {
   const isAuth = useSelector(selectIsAuth);
-
+  const userData = useSelector((state) => state.auth.user.data);
   const dispath = useDispatch();
-
+  console.log(userData);
   const handleClick = (name) => {
     dispath(setSearchTag(name));
   };
@@ -30,6 +32,17 @@ export const Header = () => {
           <div className={styles.buttons}>
             {isAuth ? (
               <>
+                <Link
+                  to={userData.role === "admin" ? "/test" : "/"}
+                  onClick={() => handleClick("")}
+                >
+                  <Avatar
+                    sx={{ width: 36, height: 36, bgcolor: deepOrange["A700"] }}
+                  >
+                    AP
+                  </Avatar>
+                </Link>
+
                 <Link to="/add-post">
                   <Button variant="contained">Написать статью</Button>
                 </Link>

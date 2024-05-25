@@ -15,7 +15,6 @@ export const TagsBlock = ({ items, isLoading = true }) => {
     dispath(setSearchTag(name));
   };
   const { initialTag } = useSelector((state) => state.posts);
-  console.log(initialTag);
   return (
     <SideBlock title="Тэги">
       <List>
