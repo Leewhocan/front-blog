@@ -34,6 +34,7 @@ const initialState = {
     tag: "",
   },
   sorting: "Новые",
+  modalFirstView: true,
 };
 const postsSlice = createSlice({
   name: "posts",
@@ -44,6 +45,9 @@ const postsSlice = createSlice({
     },
     setSortBy: (state, action) => {
       state.sorting = action.payload;
+    },
+    setModalFirstView: (state, action) => {
+      state.modalFirstView = action.payload;
     },
   },
   extraReducers: {
@@ -85,4 +89,5 @@ const postsSlice = createSlice({
 
 export const postRedusers = postsSlice.reducer;
 
-export const { setSearchTag, setSortBy } = postsSlice.actions;
+export const { setSearchTag, setSortBy, setModalFirstView } =
+  postsSlice.actions;

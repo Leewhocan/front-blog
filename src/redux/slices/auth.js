@@ -29,6 +29,7 @@ const initialState = {
   user: {
     data: null,
     status: "loading",
+    role: "",
   },
 };
 
@@ -48,6 +49,7 @@ const authSlice = createSlice({
     [fetchUserData.fulfilled]: (state, action) => {
       state.user.status = "loaded";
       state.user.data = action.payload;
+      state.user.role = action.payload.role;
     },
     [fetchUserData.rejected]: (state) => {
       state.user.status = "error";
@@ -60,6 +62,7 @@ const authSlice = createSlice({
     [fetchAuthUser.fulfilled]: (state, action) => {
       state.user.status = "loaded";
       state.user.data = action.payload;
+      state.user.role = action.payload.role;
     },
     [fetchAuthUser.rejected]: (state) => {
       state.user.status = "error";
@@ -72,6 +75,7 @@ const authSlice = createSlice({
     [fetchRegister.fulfilled]: (state, action) => {
       state.user.status = "loaded";
       state.user.data = action.payload;
+      state.user.role = action.payload.role;
     },
     [fetchRegister.rejected]: (state) => {
       state.user.status = "error";
