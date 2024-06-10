@@ -58,7 +58,11 @@ export const FullPost = () => {
       <Post
         id={data._id}
         title={data.title}
-        imageUrl={data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ""}
+        imageUrl={
+          data.imageUrl
+            ? `https://back-blog-5ns0.onrender.com${data.imageUrl}`
+            : ""
+        }
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
