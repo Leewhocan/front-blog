@@ -9,7 +9,7 @@ import {
   Traffic,
 } from "../components";
 import { Grid } from "@mui/material";
-export const TestPage = () => {
+export const AdminPage = () => {
   return (
     <Grid container spacing={3}>
       <Grid item lg={3} sm={6} xs={12}>

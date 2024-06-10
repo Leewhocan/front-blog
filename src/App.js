@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { Header } from "./components";
 import { Home, FullPost, Registration, AddPost, Login } from "./pages";
 import { fetchAuthUser, selectIsAuth } from "./redux/slices/auth";
-import { TestPage } from "./pages/TestPage";
+import { AdminPage } from "./pages/TestPage";
 
 function App() {
   const dispath = useDispatch();
@@ -25,7 +25,7 @@ function App() {
           <Route path="/add-post" element={<AddPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/test" element={<TestPage />} />
+          <Route path="/test" element={<AdminPage />} />
         </Routes>
       </Container>
     </>
