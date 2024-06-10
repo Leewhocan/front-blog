@@ -52,7 +52,8 @@ export const CommentsBlock = ({
                 />
               )}
 
-              {obj.user._id === dataAuth._id && !fromHome ? (
+              {(obj.user._id === dataAuth._id || dataAuth?.role === "admin") &&
+              !fromHome ? (
                 <IconButton
                   onClick={() => onClickDelete(obj._id)}
                   color="secondary"
