@@ -10,12 +10,12 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
+const basename = process.env.PUBLIC_URL || "/front-blog";
 root.render(
   <>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <HashRouter>
+      <HashRouter basename={basename}>
         <Provider store={store}>
           <App />
         </Provider>
