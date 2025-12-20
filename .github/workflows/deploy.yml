@@ -1,68 +1,68 @@
-name: Build for GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
 
+permissions:
+  contents: write # Даем права на запись
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Шаг 1: Получаем код
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Шаг 2: Настраиваем Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
 
+      # Шаг 3: Устанавливаем зависимости
       - name: Install dependencies
         run: npm ci
 
+      # Шаг 4: Собираем проект
       - name: Build project
         run: npm run build
 
-      - name: Create .nojekyll file
-        run: touch build/.nojekyll
+      # Шаг 5: Готовим файлы для деплоя
+      - name: Prepare deployment files
+        run: |
+          echo "=== Подготовка файлов для GitHub Pages ==="
+          # Копируем всё из build в корень
+          cp -r build/* .
+          rm -rf build
+          # Создаем обязательный файл
+          touch .nojekyll
+          echo "Файлы готовы в корне репозитория"
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-files
-          path: build/
-name: Build for GitHub Pages
+      # Шаг 6: Показываем что получилось
+      - name: Show deployment files
+        run: |
+          echo "=== Файлы в корне после подготовки ==="
+          ls -la
+          echo ""
+          echo "=== Проверка index.html ==="
+          grep -o 'src="[^"]*"' index.html | head -3
 
-on:
-  push:
-    branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
-
-      - name: Create .nojekyll file
-        run: touch build/.nojekyll
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-files
-          path: build/
+      # Шаг 7: Деплоим в main ветку
+      - name: Deploy to main branch
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git status
+          # Если есть изменения - коммитим и пушим
+          if git diff --staged --quiet; then
+            echo "Нет изменений для коммита"
+          else
+            git commit -m "🚀 Deploy to GitHub Pages [$(date +'%Y-%m-%d %H:%M:%S')]"
+            git push origin main
+            echo "✅ Деплой завершен!"
+          fi
