@@ -1,15 +1,14 @@
-name: Deploy to GitHub Pages
+9NBname: Build for GitHub Pages
 
 on:
   push:
     branches: [main]
 
-# Добавь этот блок permissions на уровне workflow
 permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,9 +34,21 @@ jobs:
           echo ""
           echo "=== Should show /front-blog/static/... ==="
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          publish_branch: gh-pages
+      - name: Prepare deployment
+        run: |
+          # Удаляем все, кроме build папки
+          rm -rf public src .github README.md package.json package-lock.json
+          # Перемещаем содержимое build в корень
+          mv build/* .
+          rm -rf build
+          # Создаем .nojekyll
+          touch .nojekyll
+          echo "Deployment files ready in root"
+
+      - name: Deploy to main
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Deploy to GitHub Pages from main"
+          git push origin main
