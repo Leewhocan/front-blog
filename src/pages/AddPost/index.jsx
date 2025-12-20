@@ -78,7 +78,7 @@ export const AddPost = () => {
           console.log(err);
         });
     }
-  }, []);
+  }, [id]);
 
   const options = React.useMemo(
     () => ({
