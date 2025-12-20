@@ -1,25 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { HashRouter } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
 import { Provider } from "react-redux";
-import "./index.scss";
-import store from "./redux/store.js";
+import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material";
+
+import App from "./App";
+import store from "./redux/store";
 import { theme } from "./theme";
+import "./index.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const basename = process.env.PUBLIC_URL || "/front-blog";
+
 root.render(
-  <>
-    <CssBaseline />
+  <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <HashRouter basename={basename}>
+      <CssBaseline />
+      <HashRouter>
         <Provider store={store}>
           <App />
         </Provider>
       </HashRouter>
     </ThemeProvider>
-  </>
+  </React.StrictMode>
 );
