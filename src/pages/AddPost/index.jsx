@@ -14,7 +14,8 @@ export const AddPost = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isLoading, setIsLoading] = React.useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [_, setIsLoading] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState("");
   const [text, setText] = React.useState("");
   const [title, setTitle] = React.useState("");

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData, selectIsAuth } from "../../redux/slices/auth";
+import { selectIsAuth } from "../../redux/slices/auth";
 import { logout } from "../../redux/slices/auth";
 import { setSearchTag } from "../../redux/slices/posts";
 export const Header = () => {

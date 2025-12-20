@@ -38,7 +38,7 @@ export const Home = () => {
     dispatch(fetchTags());
     dispatch(fetchLastComments());
     setIsDeleting(false);
-  }, [initialTag, isDeliting, sorting]);
+  }, [dispatch, initialTag, isDeliting, sorting]);
 
   return (
     <>

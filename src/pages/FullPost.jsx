@@ -34,7 +34,7 @@ export const FullPost = () => {
     dispatch(fetchCommentsForPost(id));
 
     setIsUpdateOnComment(false);
-  }, [isUpdateOnComment]);
+  }, [dispatch, id, isUpdateOnComment]);
 
   React.useEffect(() => {
     axios
@@ -48,7 +48,7 @@ export const FullPost = () => {
         console.log(err);
         alert(err);
       });
-  }, []);
+  }, [id]);
   if (isLoading) {
     return <Post isLoading={isLoading} />;
   }

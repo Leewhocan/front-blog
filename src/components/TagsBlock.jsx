@@ -9,9 +9,8 @@ import Skeleton from "@mui/material/Skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { SideBlock } from "./SideBlock";
 import { setSearchTag } from "../redux/slices/posts";
-import { useTheme } from "@mui/material/styles";
+
 export const TagsBlock = ({ items, isLoading = true }) => {
-  const theme = useTheme();
   const dispath = useDispatch();
   const handleClick = (name) => {
     dispath(setSearchTag(name));
