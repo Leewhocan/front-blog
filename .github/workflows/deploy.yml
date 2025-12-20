@@ -4,9 +4,6 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,28 +24,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Verify build
-        run: |
-          echo "=== Checking index.html paths ==="
-          grep -o 'src="[^"]*"' build/index.html
-          echo ""
-          echo "=== Should show /front-blog/static/... ==="
+      - name: Create .nojekyll file
+        run: touch build/.nojekyll
 
-      - name: Prepare deployment
-        run: |
-          # Удаляем все, кроме build папки
-          rm -rf public src .github README.md package.json package-lock.json
-          # Перемещаем содержимое build в корень
-          mv build/* .
-          rm -rf build
-          # Создаем .nojekyll
-          touch .nojekyll
-          echo "Deployment files ready in root"
-
-      - name: Deploy to main
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add .
-          git commit -m "Deploy to GitHub Pages from main"
-          git push origin main
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: build/
