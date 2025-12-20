@@ -29,7 +29,7 @@ jobs:
 
       - name: Run linter
         run: npx eslint src/ --ext .js,.jsx || echo "Linting completed"
-        continue-on-error: true # Линтинг не должен блокировать
+        continue-on-error: true
 
       - name: Run tests
         run: npm test -- --watchAll=false --passWithNoTests --coverage
@@ -45,7 +45,7 @@ jobs:
   # === JOB 2: BUILD ===
   build:
     runs-on: ubuntu-latest
-    needs: test # Зависит от успешного выполнения test job
+    needs: test
 
     steps:
       - name: Checkout repository
@@ -80,8 +80,12 @@ jobs:
   # === JOB 3: DEPLOY ===
   deploy:
     runs-on: ubuntu-latest
-    needs: build # Зависит от успешного выполнения build job
-    if: github.event_name == 'push' # Только при пуше в main
+    needs: build
+    if: github.event_name == 'push'
+
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+      site_url: ${{ steps.deployment.outputs.page_url }}
 
     environment:
       name: github-pages
@@ -101,8 +105,69 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: . # Используем текущую директорию с артефактами
+          publish_dir: .
           publish_branch: gh-pages
           force_orphan: true
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
+
+      - name: Show deployment URL
+        run: |
+          echo "=========================================="
+          echo "🚀 DEPLOYMENT SUCCESSFUL!"
+          echo "=========================================="
+          echo ""
+          echo "📦 Project: front-blog"
+          echo "🌐 Your site is now live at:"
+          echo "🔗 https://leewhocan.github.io/front-blog/"
+          echo ""
+          echo "📊 GitHub Pages URL: ${{ steps.deployment.outputs.page_url }}"
+          echo ""
+          echo "📅 Deployment completed at: $(date)"
+          echo "=========================================="
+
+  # === JOB 4: FINAL REPORT ===
+  report:
+    runs-on: ubuntu-latest
+    needs: [test, build, deploy]
+    if: always()
+
+    steps:
+      - name: Generate pipeline report
+        run: |
+          echo "████████████████████████████████████████"
+          echo "█      PIPELINE EXECUTION REPORT      █"
+          echo "████████████████████████████████████████"
+          echo ""
+          echo "📊 JOB STATUS:"
+          echo "  ✅ test:   ${{ needs.test.result }}"
+          echo "  ✅ build:  ${{ needs.build.result }}"
+          echo "  ✅ deploy: ${{ needs.deploy.result }}"
+          echo ""
+
+          if [[ "${{ needs.test.result }}" == "success" && \
+                "${{ needs.build.result }}" == "success" && \
+                "${{ needs.deploy.result }}" == "success" ]]; then
+            echo "🎉 ALL JOBS COMPLETED SUCCESSFULLY!"
+            echo ""
+            echo "🌐 YOUR SITE IS LIVE:"
+            echo "   https://leewhocan.github.io/front-blog/"
+            echo ""
+            echo "🔗 Direct link: ${{ needs.deploy.outputs.page_url }}"
+            echo ""
+            echo "📈 View deployment details:"
+            echo "   ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo ""
+            echo "🕐 Pipeline completed at: $(date)"
+          else
+            echo "❌ PIPELINE FAILED"
+            echo ""
+            echo "Failed jobs:"
+            [[ "${{ needs.test.result }}" != "success" ]] && echo "  ✗ test job failed"
+            [[ "${{ needs.build.result }}" != "success" ]] && echo "  ✗ build job failed"
+            [[ "${{ needs.deploy.result }}" != "success" ]] && echo "  ✗ deploy job failed"
+            echo ""
+            echo "🔍 Check logs for details:"
+            echo "   ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          fi
+          echo "████████████████████████████████████████"
