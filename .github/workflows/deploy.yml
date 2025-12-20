@@ -1,4 +1,4 @@
-9NBname: Build for GitHub Pages
+name: Build for GitHub Pages
 
 on:
   push:
