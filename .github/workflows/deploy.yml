@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+# Добавь этот блок permissions на уровне workflow
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
