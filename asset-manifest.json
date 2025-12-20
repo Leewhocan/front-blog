@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/front-blog/static/css/main.2c6be7de.css",
+    "main.js": "/front-blog/static/js/main.bb38741d.js",
+    "static/media/marked.cjs": "/front-blog/static/media/marked.0a2feaefe04db935009b.cjs",
+    "index.html": "/front-blog/index.html",
+    "main.2c6be7de.css.map": "/front-blog/static/css/main.2c6be7de.css.map",
+    "main.bb38741d.js.map": "/front-blog/static/js/main.bb38741d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2c6be7de.css",
+    "static/js/main.bb38741d.js"
+  ]
+}
